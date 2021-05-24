@@ -1,12 +1,18 @@
 ////////////////////////////////////////////////////////////////////////////////
 // Filename: colorshaderclass.cpp
 ////////////////////////////////////////////////////////////////////////////////
-#include "colorshaderclass.h"
+#include "lightshaderclass.h"
 #include "Effects.h"
 
 ColorShaderClass::ColorShaderClass()
 {
 	m_layout = 0;
+	m_matrixBuffer = 0;
+}
+
+
+ColorShaderClass::ColorShaderClass(const ColorShaderClass& other)
+{
 }
 
 
@@ -18,8 +24,10 @@ ColorShaderClass::~ColorShaderClass()
 bool ColorShaderClass::Initialize(ID3D11Device* device, HWND hwnd)
 {
 	bool result = true;
-	// Initialize the vertex and pixel shaders.
 
+
+	// Initialize the vertex and pixel shaders.
+	Effects::InitAll(device);
 	result = InitializeShader(device, hwnd);
 	if(!result)
 	{
@@ -62,10 +70,13 @@ bool ColorShaderClass::Render(ID3D11DeviceContext* deviceContext, int indexCount
 bool ColorShaderClass::InitializeShader(ID3D11Device* device, HWND hwnd)
 {
 	HRESULT result;
+	ID3D10Blob* errorMessage;
 	D3D11_INPUT_ELEMENT_DESC polygonLayout[2];
 	unsigned int numElements;
-	Effects::InitAll(device);
+
 	// Initialize the pointers this function will use to null.
+	errorMessage = 0;
+
 	
 	// Create the vertex input layout description.
 	// This setup needs to match the VertexType stucture in the ModelClass and in the shader.
@@ -105,6 +116,13 @@ bool ColorShaderClass::InitializeShader(ID3D11Device* device, HWND hwnd)
 
 void ColorShaderClass::ShutdownShader()
 {
+	// Release the matrix constant buffer.
+	if(m_matrixBuffer)
+	{
+		m_matrixBuffer->Release();
+		m_matrixBuffer = 0;
+	}
+
 	// Release the layout.
 	if(m_layout)
 	{

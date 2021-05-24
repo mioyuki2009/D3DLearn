@@ -22,4 +22,68 @@
       <Filter>Fx</Filter>
     </FxCompile>
   </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Textureshaderclass.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="cameraclass.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="d3dclass.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="Effects.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="graphicsclass.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="inputclass.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="main.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="ModelClass.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="systemclass.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="TextureClass.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="LightShaderClass.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Textureshaderclass.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="cameraclass.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="d3dclass.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Effects.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="inputclass.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="ModelClass.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="systemclass.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="TextureClass.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="LightShaderClass.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+  </ItemGroup>
 </Project>

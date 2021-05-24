@@ -69,7 +69,10 @@
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
-  <PropertyGroup />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <IncludePath>..\Common;$(DXSDK_DIR)Include;$(VC_IncludePath);$(WindowsSDK_IncludePath);</IncludePath>
+    <LibraryPath>..\Common;$(DXSDK_DIR)Lib\x64;$(VC_LibraryPath_x64);$(WindowsSDK_LibraryPath_x64);$(NETFXKitsDir)Lib\um\x64</LibraryPath>
+  </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
@@ -78,7 +81,7 @@
       <ConformanceMode>true</ConformanceMode>
     </ClCompile>
     <Link>
-      <SubSystem>Console</SubSystem>
+      <SubSystem>Windows</SubSystem>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
@@ -123,7 +126,33 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <FxCompile Include="Basic.fx" />
+    <None Include="Basic.fx">
+      <FileType>Document</FileType>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="cameraclass.cpp" />
+    <ClCompile Include="LightShaderClass.cpp" />
+    <ClCompile Include="d3dclass.cpp" />
+    <ClCompile Include="Effects.cpp" />
+    <ClCompile Include="graphicsclass.cpp" />
+    <ClCompile Include="inputclass.cpp" />
+    <ClCompile Include="main.cpp" />
+    <ClCompile Include="ModelClass.cpp" />
+    <ClCompile Include="systemclass.cpp" />
+    <ClCompile Include="TextureClass.cpp" />
+    <ClCompile Include="Textureshaderclass.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="cameraclass.h" />
+    <ClInclude Include="LightShaderClass.h" />
+    <ClInclude Include="d3dclass.h" />
+    <ClInclude Include="Effects.h" />
+    <ClInclude Include="inputclass.h" />
+    <ClInclude Include="ModelClass.h" />
+    <ClInclude Include="systemclass.h" />
+    <ClInclude Include="TextureClass.h" />
+    <ClInclude Include="Textureshaderclass.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
