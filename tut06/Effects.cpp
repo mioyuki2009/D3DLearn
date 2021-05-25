@@ -38,7 +38,7 @@ BasicEffect::BasicEffect(ID3D11Device* device, const std::string& filename)
 	DiffuseMap = mFX->GetVariableByName("shaderTexture")->AsShaderResource();
 	
 	DiffuseColor = mFX->GetVariableByName("diffuseColor")->AsVector();
-	LightDirection = mFX->GetVariableByName("gEyePosW")->AsVector();
+	LightDirection = mFX->GetVariableByName("lightDirection")->AsVector();
 }
 
 BasicEffect::~BasicEffect()

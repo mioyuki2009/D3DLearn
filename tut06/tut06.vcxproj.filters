@@ -18,11 +18,6 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <FxCompile Include="Basic.fx">
-      <Filter>Fx</Filter>
-    </FxCompile>
-  </ItemGroup>
-  <ItemGroup>
     <ClCompile Include="Textureshaderclass.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
@@ -56,6 +51,9 @@
     <ClCompile Include="LightShaderClass.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="lightclass.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Textureshaderclass.h">
@@ -85,5 +83,11 @@
     <ClInclude Include="LightShaderClass.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="lightclass.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Basic.fx" />
   </ItemGroup>
 </Project>
