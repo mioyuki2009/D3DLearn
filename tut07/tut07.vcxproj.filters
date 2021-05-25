@@ -14,8 +14,43 @@
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
     <Filter Include="Fx">
-      <UniqueIdentifier>{4b3d529e-9680-48f1-b03a-595f8679f772}</UniqueIdentifier>
+      <UniqueIdentifier>{5cbf029c-e67d-43df-8608-1094044f6532}</UniqueIdentifier>
     </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="TextureClass.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Textureshaderclass.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="cameraclass.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="d3dclass.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Effects.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="graphicsclass.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="inputclass.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="ModelClass.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="systemclass.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="LightShaderClass.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="lightclass.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Textureshaderclass.cpp">
@@ -48,48 +83,21 @@
     <ClCompile Include="TextureClass.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="LightShaderClass.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
     <ClCompile Include="lightclass.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="LightShaderClass.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Textureshaderclass.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="cameraclass.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="d3dclass.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="Effects.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="inputclass.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="ModelClass.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="systemclass.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="TextureClass.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="LightShaderClass.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="lightclass.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Basic.fx">
+    <FxCompile Include="Basic.fx">
       <Filter>Fx</Filter>
-    </None>
+    </FxCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="Cube.txt">
+      <Filter>Fx</Filter>
+    </Text>
   </ItemGroup>
 </Project>
