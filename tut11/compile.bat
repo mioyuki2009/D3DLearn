@@ -1,0 +1,1 @@
+fxc /Od /Zi /Tfx_5_0 /FoBasic.fxo Basic.fx
