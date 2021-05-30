@@ -8,13 +8,6 @@ using namespace std;
 
 class TextureShaderClass
 {
-private:
-	struct MatrixBufferType
-	{
-		XMMATRIX world;
-		XMMATRIX view;
-		XMMATRIX projection;
-	};
 
 public:
 	TextureShaderClass();
