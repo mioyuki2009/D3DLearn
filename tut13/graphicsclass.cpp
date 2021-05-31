@@ -95,23 +95,20 @@ void GraphicsClass::Shutdown()
 }
 
 
-bool GraphicsClass::Frame()
+bool GraphicsClass::Frame(int mouseX, int mouseY)
 {
 	bool result;
 
-
-	static float rotation = 0.0f;
-
-
-	// Update the rotation variable each frame.
-	rotation += (float)0.01f;
-	if (rotation > XM_PI)
+	// Set the location of the mouse.
+	result = m_Text->SetMousePosition(mouseX, mouseY, m_D3D->GetDeviceContext());
+	if (!result)
 	{
-		rotation -= XM_PI;
+		return false;
 	}
 
+
 	// Render the graphics scene.
-	result = Render(rotation);
+	result = Render();
 	if(!result)
 	{
 		return false;
@@ -121,7 +118,7 @@ bool GraphicsClass::Frame()
 }
 
 
-bool GraphicsClass::Render(float rotation)
+bool GraphicsClass::Render()
 {
 	XMMATRIX worldMatrix, viewMatrix, projectionMatrix, orthoMatrix;
 	bool result;

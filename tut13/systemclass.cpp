@@ -2,7 +2,7 @@
 // Filename: systemclass.cpp
 ////////////////////////////////////////////////////////////////////////////////
 #include "systemclass.h"
-
+#include "windowsx.h"
 
 SystemClass::SystemClass()
 {
@@ -42,7 +42,7 @@ bool SystemClass::Initialize()
 	}
 
 	// Initialize the input object.
-	m_Input->Initialize();
+	m_Input->Initialize(screenWidth, screenHeight);
 
 	// Create the graphics object.  This object will handle rendering all the graphics for this application.
 	m_Graphics = new GraphicsClass;
@@ -75,6 +75,7 @@ void SystemClass::Shutdown()
 	// Release the input object.
 	if(m_Input)
 	{
+		m_Input->Shutdown();
 		delete m_Input;
 		m_Input = 0;
 	}
@@ -114,32 +115,64 @@ void SystemClass::Run()
 		else
 		{
 			// Otherwise do the frame processing.
-			result = Frame();
+			result = Frame(msg);
 			if(!result)
 			{
 				done = true;
 			}
 		}
 
+		if (m_Input->IsEscapePressed() == true)
+		{
+			done = true;
+		}
 	}
 
 	return;
 }
 
 
-bool SystemClass::Frame()
+bool SystemClass::Frame(const MSG& msg)
 {
-	bool result;
+	bool result = true;
+	int mouseX = -1;
+	int mouseY = -1;
+	InputClass::MouseStateChange moustStateChange = InputClass::MouseStateChange::NONE;
+	if (msg.message == WM_MOUSEMOVE) {
+		mouseX = GET_X_LPARAM(msg.lParam);
+		mouseY = GET_Y_LPARAM(msg.lParam);
+	}
+	else if (msg.message == WM_LBUTTONDOWN) {
+		moustStateChange = InputClass::MouseStateChange::LDOWN;
+		mouseX = GET_X_LPARAM(msg.lParam);
+		mouseY = GET_Y_LPARAM(msg.lParam);
+	}
+	else if (msg.message == WM_LBUTTONUP) {
+		moustStateChange = InputClass::MouseStateChange::LUP;
+		mouseX = GET_X_LPARAM(msg.lParam);
+		mouseY = GET_Y_LPARAM(msg.lParam);
+	}
+	else if (msg.message == WM_RBUTTONDOWN) {
+		moustStateChange = InputClass::MouseStateChange::RDOWN;
+		mouseX = GET_X_LPARAM(msg.lParam);
+		mouseY = GET_Y_LPARAM(msg.lParam);
+	}
+	else if (msg.message == WM_RBUTTONUP) {
+		moustStateChange = InputClass::MouseStateChange::RUP;
+		mouseX = GET_X_LPARAM(msg.lParam);
+		mouseY = GET_Y_LPARAM(msg.lParam);
+	}
 
-
-	// Check if the user pressed escape and wants to exit the application.
-	if(m_Input->IsKeyDown(VK_ESCAPE))
+	// Do the input frame processing.
+	result = m_Input->Frame(mouseX, mouseY, moustStateChange);
+	if (!result)
 	{
 		return false;
 	}
+	m_Input->GetMouseLocation(mouseX, mouseY);
 
 	// Do the frame processing for the graphics object.
-	result = m_Graphics->Frame();
+	result = m_Graphics->Frame(mouseX, mouseY);
 	if(!result)
 	{
 		return false;
@@ -151,30 +184,7 @@ bool SystemClass::Frame()
 
 LRESULT CALLBACK SystemClass::MessageHandler(HWND hwnd, UINT umsg, WPARAM wparam, LPARAM lparam)
 {
-	switch(umsg)
-	{
-		// Check if a key has been pressed on the keyboard.
-		case WM_KEYDOWN:
-		{
-			// If a key is pressed send it to the input object so it can record that state.
-			m_Input->KeyDown((unsigned int)wparam);
-			return 0;
-		}
-
-		// Check if a key has been released on the keyboard.
-		case WM_KEYUP:
-		{
-			// If a key is released then send it to the input object so it can unset the state for that key.
-			m_Input->KeyUp((unsigned int)wparam);
-			return 0;
-		}
-
-		// Any other messages send to the default message handler as our application won't make use of them.
-		default:
-		{
-			return DefWindowProc(hwnd, umsg, wparam, lparam);
-		}
-	}
+	return DefWindowProc(hwnd, umsg, wparam, lparam);
 }
 
 

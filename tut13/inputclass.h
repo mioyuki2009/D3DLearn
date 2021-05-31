@@ -11,19 +11,44 @@
 class InputClass
 {
 public:
+	enum MouseStateChange
+	{
+		NONE,
+		LUP,
+		LDOWN,
+		RUP,
+		RDOWN
+	};
+public:
+	struct MouseState
+	{
+		bool LbuttonState;
+		bool RbuttonState;
+	};
+
 	InputClass();
-	InputClass(const InputClass&);
 	~InputClass();
 
-	void Initialize();
+	bool Initialize(int, int);
 
-	void KeyDown(unsigned int);
-	void KeyUp(unsigned int);
+	void Shutdown();
+	bool Frame(int, int, MouseStateChange);
 
-	bool IsKeyDown(unsigned int);
+	bool IsEscapePressed();
+	void GetMouseLocation(int&, int&);
 
 private:
-	bool m_keys[256];
+	bool ReadKeyboard();
+	bool ReadMouse(int, int, MouseStateChange);
+	void ProcessInput();
+
+private:
+
+	unsigned char m_keyboardState[256];
+	
+	int m_screenWidth, m_screenHeight;
+	int m_mouseX, m_mouseY;
+	MouseState m_mouseState;
 };
 
 #endif
