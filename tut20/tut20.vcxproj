@@ -35,7 +35,6 @@
     <ClCompile Include="ModelClass.cpp" />
     <ClCompile Include="systemclass.cpp" />
     <ClCompile Include="TextureClass.cpp" />
-    <ClCompile Include="Textureshaderclass.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="cameraclass.h" />

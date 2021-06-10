@@ -23,9 +23,6 @@
     </FxCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Textureshaderclass.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
     <ClCompile Include="cameraclass.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
