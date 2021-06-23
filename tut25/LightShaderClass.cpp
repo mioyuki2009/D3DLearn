@@ -35,16 +35,13 @@ void LightShaderClass::Shutdown()
 }
 
 bool LightShaderClass::Render(ID3D11DeviceContext* deviceContext, int indexCount, XMMATRIX worldMatrix, XMMATRIX viewMatrix,
-	XMMATRIX projectionMatrix, ID3D11ShaderResourceView* texture1, ID3D11ShaderResourceView* texture2, ID3D11ShaderResourceView* texture3,
-	XMFLOAT3 lightDirection, XMFLOAT4 diffuseColor, XMFLOAT3 cameraPosition, XMFLOAT4 specularColor, float specularPower,
-	float fogStart, float fogEnd)
+	XMMATRIX projectionMatrix, ID3D11ShaderResourceView* texture1, XMFLOAT4 clipPlane, float translate)
 {
 	bool result;
 
 
 	// Set the shader parameters that it will use for rendering.
-	result = SetShaderParameters(deviceContext, worldMatrix, viewMatrix, projectionMatrix, texture1, texture2,
-		texture3, lightDirection, diffuseColor, cameraPosition, specularColor, specularPower, fogStart, fogEnd);
+	result = SetShaderParameters(deviceContext, worldMatrix, viewMatrix, projectionMatrix, texture1, clipPlane, translate);
 	if (!result)
 	{
 		return false;
@@ -59,7 +56,7 @@ bool LightShaderClass::Render(ID3D11DeviceContext* deviceContext, int indexCount
 bool LightShaderClass::InitializeShader(ID3D11Device* device, HWND hwnd)
 {
 	HRESULT result;
-	D3D11_INPUT_ELEMENT_DESC polygonLayout[5];
+	D3D11_INPUT_ELEMENT_DESC polygonLayout[2];
 	unsigned int numElements;
 	Effects::InitAll(device);
 
@@ -81,30 +78,6 @@ bool LightShaderClass::InitializeShader(ID3D11Device* device, HWND hwnd)
 	polygonLayout[1].AlignedByteOffset = D3D11_APPEND_ALIGNED_ELEMENT;
 	polygonLayout[1].InputSlotClass = D3D11_INPUT_PER_VERTEX_DATA;
 	polygonLayout[1].InstanceDataStepRate = 0;
-
-	polygonLayout[2].SemanticName = "NORMAL";
-	polygonLayout[2].SemanticIndex = 0;
-	polygonLayout[2].Format = DXGI_FORMAT_R32G32B32_FLOAT;
-	polygonLayout[2].InputSlot = 0;
-	polygonLayout[2].AlignedByteOffset = D3D11_APPEND_ALIGNED_ELEMENT;
-	polygonLayout[2].InputSlotClass = D3D11_INPUT_PER_VERTEX_DATA;
-	polygonLayout[2].InstanceDataStepRate = 0;
-
-	polygonLayout[3].SemanticName = "TANGENT";
-	polygonLayout[3].SemanticIndex = 0;
-	polygonLayout[3].Format = DXGI_FORMAT_R32G32B32_FLOAT;
-	polygonLayout[3].InputSlot = 0;
-	polygonLayout[3].AlignedByteOffset = D3D11_APPEND_ALIGNED_ELEMENT;
-	polygonLayout[3].InputSlotClass = D3D11_INPUT_PER_VERTEX_DATA;
-	polygonLayout[3].InstanceDataStepRate = 0;
-
-	polygonLayout[4].SemanticName = "BINORMAL";
-	polygonLayout[4].SemanticIndex = 0;
-	polygonLayout[4].Format = DXGI_FORMAT_R32G32B32_FLOAT;
-	polygonLayout[4].InputSlot = 0;
-	polygonLayout[4].AlignedByteOffset = D3D11_APPEND_ALIGNED_ELEMENT;
-	polygonLayout[4].InputSlotClass = D3D11_INPUT_PER_VERTEX_DATA;
-	polygonLayout[4].InstanceDataStepRate = 0;
 
 	// Get a count of the elements in the layout.
 	numElements = sizeof(polygonLayout) / sizeof(polygonLayout[0]);
@@ -134,29 +107,15 @@ void LightShaderClass::ShutdownShader()
 }
 
 bool LightShaderClass::SetShaderParameters(ID3D11DeviceContext* deviceContext, XMMATRIX worldMatrix, XMMATRIX viewMatrix,
-	XMMATRIX projectionMatrix, ID3D11ShaderResourceView* texture1, ID3D11ShaderResourceView* texture2, ID3D11ShaderResourceView* texture3,
-	XMFLOAT3 lightDirection, XMFLOAT4 diffuseColor, XMFLOAT3 cameraPosition, XMFLOAT4 specularColor, float specularPower,
-	float fogStart, float fogEnd)
+	XMMATRIX projectionMatrix, ID3D11ShaderResourceView* texture1, XMFLOAT4 clipPlane, float translate)
 {
 	Effects::BasicFX->SetWorldMatrix(worldMatrix);
 	Effects::BasicFX->SetViewMatrix(viewMatrix);
 	Effects::BasicFX->SetProjMatrix(projectionMatrix);
-	Effects::BasicFX->SetTex1(texture1);
-	Effects::BasicFX->SetTex2(texture2);
-	Effects::BasicFX->SetTex3(texture3);
-
-	Effects::BasicFX->SetLightDirection(lightDirection);
-	Effects::BasicFX->SetCameraPosition(cameraPosition);
-	XMVECTOR sColor = XMLoadFloat4(&specularColor);
-	Effects::BasicFX->SetSpecularColor(sColor);
-	Effects::BasicFX->SetSpecularPower(specularPower);
-	XMVECTOR dColor = XMLoadFloat4(&diffuseColor);
-	Effects::BasicFX->SetLightColor(dColor);
-	Effects::BasicFX->SetLightDirection(lightDirection);
-
-	Effects::BasicFX->SetFogStart(fogStart);
-	Effects::BasicFX->SetFogEnd(fogEnd);
-
+	Effects::BasicFX->SetTex(texture1);
+	XMVECTOR clipPlaneVec = XMLoadFloat4(&clipPlane);
+	Effects::BasicFX->SetClipPlane(clipPlaneVec);
+	Effects::BasicFX->SetTextureTranslation(translate);
 	return true;
 }
 
