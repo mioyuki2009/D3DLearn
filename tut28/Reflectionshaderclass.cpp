@@ -1,6 +1,6 @@
-#include "Reflectionshaderclass.h"
+#include "FadeShaderClass.h"
 #include "Effects.h"
-Reflectionshaderclass::Reflectionshaderclass()
+FadeShaderClass::Reflectionshaderclass()
 {
 	m_layout = 0;
 }
@@ -33,13 +33,13 @@ void Reflectionshaderclass::Shutdown()
 }
 
 bool Reflectionshaderclass::Render(ID3D11DeviceContext* deviceContext, int indexCount, XMMATRIX worldMatrix, XMMATRIX viewMatrix,
-	XMMATRIX projectionMatrix, ID3D11ShaderResourceView* texture)
+	XMMATRIX projectionMatrix, ID3D11ShaderResourceView* texture, ID3D11ShaderResourceView* reflectionTexture, XMMATRIX reflectionMatrix)
 {
 	bool result;
 
 
 	// Set the shader parameters that it will use for rendering.
-	result = SetShaderParameters(deviceContext, worldMatrix, viewMatrix, projectionMatrix, texture);
+	result = SetShaderParameters(deviceContext, worldMatrix, viewMatrix, projectionMatrix, texture, reflectionTexture, reflectionMatrix);
 	if (!result)
 	{
 		return false;
@@ -80,7 +80,7 @@ bool Reflectionshaderclass::InitializeShader(ID3D11Device* device, HWND hwnd)
 	numElements = sizeof(polygonLayout) / sizeof(polygonLayout[0]);
 
 	D3DX11_PASS_DESC passDesc;
-	Effects::BasicFX->PassTech->GetPassByIndex(0)->GetDesc(&passDesc);
+	Effects::BasicFX->PassTech2->GetPassByIndex(0)->GetDesc(&passDesc);
 	result = device->CreateInputLayout(polygonLayout, numElements, passDesc.pIAInputSignature,
 		passDesc.IAInputSignatureSize, &m_layout);
 
@@ -106,12 +106,14 @@ void Reflectionshaderclass::ShutdownShader()
 }
 
 bool Reflectionshaderclass::SetShaderParameters(ID3D11DeviceContext* deviceContext, XMMATRIX worldMatrix, XMMATRIX viewMatrix,
-	XMMATRIX projectionMatrix, ID3D11ShaderResourceView* texture)
+	XMMATRIX projectionMatrix, ID3D11ShaderResourceView* texture, ID3D11ShaderResourceView* reflectionTexture, XMMATRIX reflectionMatrix)
 {
 	Effects::BasicFX->SetWorldMatrix(worldMatrix);
 	Effects::BasicFX->SetViewMatrix(viewMatrix);
 	Effects::BasicFX->SetProjMatrix(projectionMatrix);
 	Effects::BasicFX->SetTex(texture);
+	Effects::BasicFX->SetReflectionTexture(reflectionTexture);
+	Effects::BasicFX->SetReflectionMatrix(reflectionMatrix);
 	return true;
 }
 
@@ -120,7 +122,7 @@ void Reflectionshaderclass::RenderShader(ID3D11DeviceContext* deviceContext, int
 	// Set the vertex input layout.
 	deviceContext->IASetInputLayout(m_layout);
 	
-	Effects::BasicFX->PassTech->GetPassByIndex(0)->Apply(0, deviceContext);
+	Effects::BasicFX->PassTech2->GetPassByIndex(0)->Apply(0, deviceContext);
 	// Render the triangle.
 	deviceContext->DrawIndexed(indexCount, 0, 0);
 
