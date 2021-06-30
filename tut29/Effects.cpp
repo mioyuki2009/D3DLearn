@@ -1,0 +1,81 @@
+#include "Effects.h"
+#include "fstream"
+#include "vector"
+#include "Macro.hpp"
+
+#pragma region Effect
+Effect::Effect(ID3D11Device* device, const std::string& filename)
+	: mFX(0)
+{
+	std::ifstream fin(filename, std::ios::binary);
+
+	fin.seekg(0, std::ios_base::end);
+	int size = (int)fin.tellg();
+	fin.seekg(0, std::ios_base::beg);
+	std::vector<char> compiledShader(size);
+
+	fin.read(&compiledShader[0], size);
+	fin.close();
+
+	HR(D3DX11CreateEffectFromMemory(&compiledShader[0], size,
+		0, device, &mFX));
+}
+
+Effect::~Effect()
+{
+	ReleaseCOM(mFX);
+}
+#pragma endregion
+
+#pragma region BasicEffect
+BasicEffect::BasicEffect(ID3D11Device* device, const std::string& filename)
+	: Effect(device, filename)
+{
+	PassTech1 = mFX->GetTechniqueByName("Pass1");
+	PassTech2 = mFX->GetTechniqueByName("Pass2");
+	PassTech3 = mFX->GetTechniqueByName("Pass3");
+
+	WorldMat = mFX->GetVariableByName("worldMatrix")->AsMatrix();
+	ViewMat = mFX->GetVariableByName("viewMatrix")->AsMatrix();
+	ProjMat = mFX->GetVariableByName("projectionMatrix")->AsMatrix();
+	DiffuseMap = mFX->GetVariableByName("shaderTexture")->AsShaderResource();
+	
+	AmbientColor = mFX->GetVariableByName("ambientColor")->AsVector();
+	DiffuseColor = mFX->GetVariableByName("diffuseColor")->AsVector();
+	LightDirection = mFX->GetVariableByName("lightDirection")->AsVector();
+
+	SpecularColor = mFX->GetVariableByName("specularColor")->AsVector();
+	CameraPosition = mFX->GetVariableByName("cameraPosition")->AsVector();
+	SpecularPower = mFX->GetVariableByName("specularPower")->AsScalar();
+
+	//Water
+	ReflectionMatrix = mFX->GetVariableByName("reflectionMatrix")->AsMatrix();
+	ReflectionTexture = mFX->GetVariableByName("reflectionTexture")->AsShaderResource();
+	RefractionTexture = mFX->GetVariableByName("refractionTexture")->AsShaderResource();
+	NormalTexture = mFX->GetVariableByName("normalTexture")->AsShaderResource();
+	WaterTranslation = mFX->GetVariableByName("waterTranslation")->AsScalar();
+	ReflectRefractScale = mFX->GetVariableByName("reflectRefractScale")->AsScalar();
+
+	//refract
+	ClipPlane = mFX->GetVariableByName("clipPlane")->AsVector();
+}
+
+BasicEffect::~BasicEffect()
+{
+}
+#pragma endregion
+
+#pragma region Effects
+
+BasicEffect* Effects::BasicFX = 0;
+
+void Effects::InitAll(ID3D11Device* device)
+{
+	BasicFX = new BasicEffect(device, "./Basic.fxo");
+}
+
+void Effects::DestroyAll()
+{
+	SafeDelete(BasicFX);
+}
+#pragma endregion
