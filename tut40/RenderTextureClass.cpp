@@ -19,10 +19,6 @@ bool RenderTextureClass::Initialize(ID3D11Device* device, int textureWidth, int 
 	D3D11_TEXTURE2D_DESC depthBufferDesc;
 	D3D11_DEPTH_STENCIL_VIEW_DESC depthStencilViewDesc;
 
-	// Store the width and height of the render texture.
-	m_textureWidth = textureWidth;
-	m_textureHeight = textureHeight;
-
 	// Initialize the render target texture description.
 	ZeroMemory(&textureDesc, sizeof(textureDesc));
 
@@ -208,16 +204,4 @@ void RenderTextureClass::GetOrthoMatrix(XMMATRIX& orthoMatrix)
 {
 	orthoMatrix = XMLoadFloat4x4(&m_orthoMatrix);
 	return;
-}
-
-
-int RenderTextureClass::GetTextureWidth()
-{
-	return m_textureWidth;
-}
-
-
-int RenderTextureClass::GetTextureHeight()
-{
-	return m_textureHeight;
 }

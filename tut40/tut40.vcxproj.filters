@@ -97,6 +97,8 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Basic.fx" />
+    <None Include="Basic.fx">
+      <Filter>Fx</Filter>
+    </None>
   </ItemGroup>
 </Project>

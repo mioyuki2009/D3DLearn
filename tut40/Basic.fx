@@ -130,7 +130,6 @@ SamplerState SampleTypeClamp
     AddressU = Clamp;
     AddressV = Clamp;
     AddressW = Clamp;
-    ComparisonFunc = Always;
 };
 
 SamplerState SampleTypeWrap
@@ -140,6 +139,9 @@ SamplerState SampleTypeWrap
     AddressV = Wrap;
     AddressW = Wrap;
     ComparisonFunc = Always;
+	BorderColor = float4(0, 0, 0, 0);
+	MaxAnisotropy = 1;
+	MipLODBias = 0;
 };
 
 
